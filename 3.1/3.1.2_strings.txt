@@ -1,0 +1,129 @@
+# 打印结果,有时单引号转成双引号,有时双引号转成单引号. 
+# 规则记住一点:打印结果不允许出现不成对的情况,若有不成对,则将转两边的符号
+>>> 'spam eggs' 	# single quotes
+'spam eggs'
+>>> 'doesn\'t' 		# use \' to escape the single quote... 将最外两边的单引号转成双引号
+"doesn't"
+>>> "doesn't" 		# ...or use double quotes instead
+"doesn't"
+>>> '"Yes," they said.'
+'"Yes," they said.'
+>>> "\"Yes,\" they said."	# 将最外两边的双引号转成单引号
+'"Yes," they said.'
+>>> '"Isn\'t," they said.'
+'"Isn\'t," they said.'
+
+# s 和 print s 区别
+>>> '"Isn\'t," they said.'
+'"Isn\'t," they said.'
+>>> print '"Isn\'t," they said.'
+"Isn't," they said.
+>>> s = 'First line.\nSecond line.' 	# \n means newline
+>>> s 									# without print, \n is included in the output 
+'First line.\nSecond line.'
+>>> print s 							# with print, \n produces a new line
+First line.
+Second line.
+
+# print 后面加 r可以不被转义
+# r 含义是 raw strings
+# can use raw strings by adding an r before the first quote
+print 'C:\some\name' 		# here \n means newline!
+C:\some
+ame
+>>> print r'C:\some\name' 	# note the r before the quote
+C:\some\name
+
+# """xxxx""" 或 '''xxxx'''' 可以打印带有换行string
+# 注意1：下面的\ 表示换行，是不会输出打印的
+# 注意2：下面的输出最后有会有个回车换行
+>>> print """\
+... Usage: thingy [OPTIONS]
+...      -h                        Display this usage message
+...      -H hostname               Hostname to connect to
+... """
+Usage: thingy [OPTIONS]
+     -h                        Display this usage message
+     -H hostname               Hostname to connect to
+
+
+# 数字可以乘string
+# 3 times 'un', followed by 'ium'
+>>> 3 * 'un' + 'ium'
+'unununium'
+
+# 字符串可以自动合并
+>>> 'Py' 'thon'
+'Python'
+>>> text = ('Put several strings within parentheses '
+...         'to have them joined together.')
+>>> text
+'Put several strings within parentheses to have them joined together.'
+
+# 字符串合并 并不适用于 变量与字符串，但可以用+号代替
+>>> prefix = 'Py'
+>>> prefix 'thon' # can't concatenate a variable and a string literal
+  File "<stdin>", line 1
+    prefix 'thon'
+                ^
+SyntaxError: invalid syntax
+>>> prefix + 'thon'
+'Python'
+>>> ('un' * 3) 'ium'
+SyntaxError: invalid syntax
+
+# string数组 index可以是负数 这里的例子里index不可以是-7，-6已经是最小的了
+#
+# +---+---+---+---+---+---+
+# |P  |y  |t  |h  |o  |n  |
+# +---+---+---+---+---+---+
+#  0   1   2   3   4   5
+#  -6  -5  -4  -3  -2  -1
+>>> word = 'Python'
+>>> word[0] # character in position 0
+'P'
+>>> word[5] # character in position 5
+'n'
+>>> word[-1] # last character
+'n'
+>>> word[-2] # second-last character
+'o'
+>>> word[-6]
+'P'
+
+# string数组 可以切分。 左闭右开区间
+>>> word[0:2] # characters from position 0 (included) to 2 (excluded)
+'Py'
+>>> word[2:5] # characters from position 2 (included) to 5 (excluded)
+'tho'
+>>> word[:2]  # character from the beginning to position 2 (excluded)
+'Py'
+>>> word[4:]  # characters from position 4 (included) to the end
+'on'
+>>> word[-2:] # characters from the second-last (included) to the end
+'on'
+
+# index不可越界，但可以特殊适用，见下
+>>> word[42]  # the word only has 6 characters
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: string index out of range
+>>> word[4:42]	# index不可以越界，但可以这么写
+'on'
+>>> word[42:]	# index不可以越界，但可以这么写
+''
+
+# string数组不可以被赋值
+>>> word[0] = 'J'
+TypeError: 'str' object does not support item assignment
+>>> word[2:] = 'py'
+TypeError: 'str' object does not support item assignment
+>>> 'J' + word[1:]
+'Jython'
+>>> word[:2] + 'py'
+'Pypy'
+
+# len函数
+>>> s = 'supercalifragilisticexpialidocious'
+>>> len(s)
+34
