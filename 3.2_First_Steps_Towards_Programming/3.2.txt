@@ -1,0 +1,32 @@
+# 斐波那契系列
+# note1：赋值写法 （a, b = 0, 1）
+# note2：while关键字
+# note3：while的第二个行，若加tab或空格，表示语句没有写完，按回车不会执行语句
+>>> # Fibonacci series:
+... # the sum of two elements defines the next
+... a, b = 0, 1
+>>> a
+0
+>>> b
+1
+>>> while b < 10:
+...     print b
+...     a, b = b, a+b
+...
+1
+1
+2
+3
+5
+8
+
+# print的不同用法，若后面加了逗号，则不换行
+>>> i = 256*256
+>>> print 'The value of i is', i
+The value of i is 65536
+>>> a, b = 0, 1
+>>> while b < 1000:
+...     print b,
+...     a, b = b, a+b
+...
+1 1 2 3 5 8 13 21 34 55 89 144 233 377 610 987
