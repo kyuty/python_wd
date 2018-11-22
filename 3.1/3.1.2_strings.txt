@@ -72,7 +72,7 @@ SyntaxError: invalid syntax
 >>> ('un' * 3) 'ium'
 SyntaxError: invalid syntax
 
-# string数组 index可以是负数 这里的例子里index不可以是-7，-6已经是最小的了
+# string数组（不应称为数组，应称为strings，这里写数组只是好理解一些） index可以是负数 这里的例子里index不可以是-7，-6已经是最小的了
 #
 # +---+---+---+---+---+---+
 # |P  |y  |t  |h  |o  |n  |
@@ -91,7 +91,7 @@ SyntaxError: invalid syntax
 >>> word[-6]
 'P'
 
-# string数组 可以切分。 左闭右开区间
+# strings 可以切分。 左闭右开区间
 >>> word[0:2] # characters from position 0 (included) to 2 (excluded)
 'Py'
 >>> word[2:5] # characters from position 2 (included) to 5 (excluded)
@@ -113,7 +113,7 @@ IndexError: string index out of range
 >>> word[42:]	# index不可以越界，但可以这么写
 ''
 
-# string数组不可以被赋值
+# strings 不可以被赋值
 >>> word[0] = 'J'
 TypeError: 'str' object does not support item assignment
 >>> word[2:] = 'py'

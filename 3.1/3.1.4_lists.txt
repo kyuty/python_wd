@@ -1,0 +1,63 @@
+>>> squares = [1, 4, 9, 16, 25]
+>>> squares
+[1, 4, 9, 16, 25]
+
+>>> squares[0]  	# indexing returns the item
+1
+>>> squares[-1]
+25
+>>> squares[-3:]  	# slicing returns a new list
+[9, 16, 25]
+
+>>> squares[:]
+[1, 4, 9, 16, 25]
+
+# 数字可以直接加
+>>> squares + [36, 49, 64, 81, 100]
+[1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
+
+# 数组(lists) 不同于 strings
+# string      不可以 更改单个元素的值
+# 数组(lists)  可以   更改单个元素的值
+>>> cubes = [1, 8, 27, 65, 125]  	# something's wrong here
+>>> 4 ** 3  # the cube of 4 is 64, not 65!
+64
+>>> cubes[3] = 64  					# replace the wrong value
+>>> cubes
+[1, 8, 27, 64, 125]
+
+# append函数
+>>> cubes.append(216)  				# add the cube of 6
+>>> cubes.append(7 ** 3) 			# and the cube of 7
+>>> cubes
+[1, 8, 27, 64, 125, 216, 343]
+
+# 字符数组
+>>> letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
+>>> letters
+['a', 'b', 'c', 'd', 'e', 'f', 'g']
+>>> letters[2:5] = ['C', 'D', 'E']		# replace some values
+>>> letters
+['a', 'b', 'C', 'D', 'E', 'f', 'g']
+>>> letters[2:5] = []					# now remove them
+>>> letters
+['a', 'b', 'f', 'g']
+>>> letters[:] = [] # clear the list by replacing all the elements with an empty list
+>>> letters
+[]
+
+# len函数
+>>> letters = ['a', 'b', 'c', 'd']
+>>> len(letters)
+4
+
+# 二维数组
+>>> a = ['a', 'b', 'c']
+>>> n = [1, 2, 3]
+>>> x = [a, n]
+>>> x
+[['a', 'b', 'c'], [1, 2, 3]]
+>>> x[0]
+['a', 'b', 'c']
+>>> x[0][1]
+'b'
