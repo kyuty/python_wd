@@ -1,0 +1,140 @@
+# 打印2-9之间所有的素数
+# break的用法
+# for else的用法，这里else并不是与if匹配
+>>> for n in range(2, 10):
+...     print '+++++ n =', n, 'begin ++++++++++'
+...     for x in range(2, n):
+...         print 'x = ', x
+...         if n % x == 0:
+...             print n, 'equals', x, '*', n/x
+...             break
+...     else:
+...         # loop fell through without finding a factor
+...         print n, 'is a prime number'
+...     print '+++++ n =', n, 'end ++++++++++++'
+...     print ''
+...
++++++ n = 2 begin ++++++++++
+2 is a prime number
++++++ n = 2 end ++++++++++++
+
++++++ n = 3 begin ++++++++++
+x =  2
+3 is a prime number
++++++ n = 3 end ++++++++++++
+
++++++ n = 4 begin ++++++++++
+x =  2
+4 equals 2 * 2
++++++ n = 4 end ++++++++++++
+
++++++ n = 5 begin ++++++++++
+x =  2
+x =  3
+x =  4
+5 is a prime number
++++++ n = 5 end ++++++++++++
+
++++++ n = 6 begin ++++++++++
+x =  2
+6 equals 2 * 3
++++++ n = 6 end ++++++++++++
+
++++++ n = 7 begin ++++++++++
+x =  2
+x =  3
+x =  4
+x =  5
+x =  6
+7 is a prime number
++++++ n = 7 end ++++++++++++
+
++++++ n = 8 begin ++++++++++
+x =  2
+8 equals 2 * 4
++++++ n = 8 end ++++++++++++
+
++++++ n = 9 begin ++++++++++
+x =  2
+x =  3
+9 equals 3 * 3
++++++ n = 9 end ++++++++++++
+
+# 这里把else去掉了,注意区别
+>>> for n in range(2, 10):
+...     print '+++++ n =', n, 'begin ++++++++++'
+...     for x in range(2, n):
+...         print 'x = ', x
+...         if n % x == 0:
+...             print n, 'equals', x, '*', n/x
+...             break
+...         print n, 'is a prime number'
+...     print '+++++ n =', n, 'end ++++++++++++'
+...     print ''
+...
++++++ n = 2 begin ++++++++++
++++++ n = 2 end ++++++++++++
+
++++++ n = 3 begin ++++++++++
+x =  2
+3 is a prime number
++++++ n = 3 end ++++++++++++
+
++++++ n = 4 begin ++++++++++
+x =  2
+4 equals 2 * 2
++++++ n = 4 end ++++++++++++
+
++++++ n = 5 begin ++++++++++
+x =  2
+5 is a prime number
+x =  3
+5 is a prime number
+x =  4
+5 is a prime number
++++++ n = 5 end ++++++++++++
+
++++++ n = 6 begin ++++++++++
+x =  2
+6 equals 2 * 3
++++++ n = 6 end ++++++++++++
+
++++++ n = 7 begin ++++++++++
+x =  2
+7 is a prime number
+x =  3
+7 is a prime number
+x =  4
+7 is a prime number
+x =  5
+7 is a prime number
+x =  6
+7 is a prime number
++++++ n = 7 end ++++++++++++
+
++++++ n = 8 begin ++++++++++
+x =  2
+8 equals 2 * 4
++++++ n = 8 end ++++++++++++
+
++++++ n = 9 begin ++++++++++
+x =  2
+9 is a prime number
+x =  3
+9 equals 3 * 3
++++++ n = 9 end ++++++++++++
+
+# continue用法
+>>> for num in range(2, 10):
+...     if num % 2 == 0:
+...         print "Found an even number", num
+...         continue
+...     print "Found a number", num
+Found an even number 2
+Found a number 3
+Found an even number 4
+Found a number 5
+Found an even number 6
+Found a number 7
+Found an even number 8
+Found a number 9

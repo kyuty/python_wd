@@ -1,0 +1,90 @@
+# 多个参数，可以定义默认值，若调用该方法的时候没有传参，则取默认值，若传参，则使用传来的参数
+# 注意in的用法，string contains
+>>> def ask_ok(prompt, retries=4, complaint='Yes or no, please!'):
+...     while True:
+...         ok = raw_input(prompt)
+...         if ok in ('y', 'ye', 'yes'):
+...             return True
+...         if ok in ('n', 'no', 'nop', 'nope'):
+...             return False
+...         retries = retries - 1
+...         if retries < 0:
+...             raise IOError('refusenik user')
+...         print complaint
+...
+>>> ask_ok('Do you really want to quit?')
+Do you really want to quit?
+Yes or no, please!
+Do you really want to quit?q
+Yes or no, please!
+Do you really want to quit?q
+Yes or no, please!
+Do you really want to quit?q
+Yes or no, please!
+Do you really want to quit?q
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 10, in ask_ok
+IOError: refusenik user
+>>> ask_ok('OK to overwrite the file?', 2)
+OK to overwrite the file?e
+Yes or no, please!
+OK to overwrite the file?e
+Yes or no, please!
+OK to overwrite the file?e
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 10, in ask_ok
+IOError: refusenik user
+>>> ask_ok('OK to overwrite the file?', 2, 'Come on, only yes or no!')
+OK to overwrite the file?ok
+Come on, only yes or no!
+OK to overwrite the file?yes
+True
+
+# 初始化参数生效于定义方法时刻，之后的任意时刻不会改变初始化的默认值
+# The default values are evaluated at the point of function definition in the defining scope
+>>> i = 5
+>>>
+>>> def f(arg=i):
+...     print arg
+...
+>>> i = 6
+>>> f()
+5
+
+# 重要警告：默认值只会被执行一次！
+# 当默认值是可变对象（例如列表，字典或大多数类的实例）时，这会产生差异。
+# 例如，以下函数会累积在后续调用中传递给它的参数：
+# Important warning: The default value is evaluated only once.
+# This makes a difference when the default is a mutable object such as a list, dictionary, or instances of most classes.
+# For example, the following function accumulates the arguments passed to it on subsequent calls:
+>>> def f(a, L=[]):
+...     L.append(a)
+...     return L
+...
+>>> print f(1)
+[1]
+>>> print f(2)
+[1, 2]
+>>> print f(3)
+[1, 2, 3]
+
+# 可以让参数的默认值为None来解决上面的问题
+# None的用法
+>>> def f(a, L=None):
+...     if L is None:
+...         print 'L is None'
+...         L = []
+...     L.append(a)
+...     return L
+...
+>>> print f(1)
+L is None
+[1]
+>>> print f(2)
+L is None
+[2]
+>>> print f(3)
+L is None
+[3]

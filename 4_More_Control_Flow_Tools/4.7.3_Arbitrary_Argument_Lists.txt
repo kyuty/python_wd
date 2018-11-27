@@ -1,0 +1,5 @@
+# Finally, the least frequently used option is to specify that a function can be called with an arbitrary number of arguments. These arguments will be wrapped up in a tuple (see Tuples and Sequences). Before the variable number of arguments, zero or more normal arguments may occur.
+# 最后，最不常用的参数列表就是可以使用任意数量的参数列表
+# 在可变数量的参数之前，可能会出现0个或多个正常的参数
+def write_multiple_items(file, separator, *args):
+    file.write(separator.join(args))

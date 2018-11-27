@@ -1,0 +1,18 @@
+>>> # Measure some strings:
+... words = ['cat', 'window', 'defenestrate']
+>>> for w in words:
+...     print w, len(w)
+...
+cat 3
+window 6
+defenestrate 12
+
+# 如果你想在一次for循环里，更改（增删改）for循环对应的数组，建议先copy一份
+# words[:] 就是copy words数组
+# insert函数
+>>> for w in words[:]:  # Loop over a slice copy of the entire list.
+...     if len(w) > 6:
+...         words.insert(0, w)
+...
+>>> words
+['defenestrate', 'cat', 'window', 'defenestrate']
