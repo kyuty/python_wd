@@ -1,0 +1,60 @@
+# 三个有用的内置函数 filter map reduce
+# filter(function, sequence)函数
+# filter将第二个参数sequence遍历，执行第一个参数function，返回一个新的sequence(sequenceA)
+# 若function返回为true，则添加到新的sequence(sequenceA)，false则不添加到
+>>> def f(x): return x % 3 == 0 or x % 5 == 0
+...
+>>> filter(f, range(2, 25))
+[3, 5, 6, 9, 10, 12, 15, 18, 20, 21, 24]
+
+# map(function, sequence)函数
+# map函数将第二个参数sequence遍历，执行第一个参数function，返回一个size相同的新sequence
+>>> def cube(x): return x*x*x
+...
+>>> map(cube, range(1, 11))						# 这里用map，则返回新的sequence是cube函数返回的结果
+[1, 8, 27, 64, 125, 216, 343, 512, 729, 1000]
+>>> filter(cube, range(1, 11))					# 这里若用filter，每个方法返回值都>=1，为true，则将range的1-10都会返回
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+# map函数支持超过一个sequence传参，多个sequence的size应该相同（一一对应），若size不同，则用None代替
+>>> seq = range(8)
+>>> def add(x, y): return x+y
+...
+>>> map(add, seq, seq)
+[0, 2, 4, 6, 8, 10, 12, 14]
+>>> seq2 = range(4)
+>>> map(add, seq, seq2)				# int和None相加会error
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 1, in add
+TypeError: unsupported operand type(s) for +: 'int' and 'NoneType'
+
+# reduce(function, sequence)函数
+# 返回通过在序列的前两项上调用二元函数函数构造的单个值，然后在结果和下一项上调用，依此类推。
+# 例如，要计算数字1到10的总和：
+>>> def sum(seq):
+...     def add(x,y): return x+y
+...     return reduce(add, seq, 0)
+...
+>>> sum(range(1, 11))
+55
+>>> sum([])
+0
+
+# reduce函数的第三个参数表示初始值
+>>> def sum(seq):
+...     def add(x,y): return x+y
+...     return reduce(add, seq, 0)
+...
+>>> sum(range(1, 11))
+55
+>>> sum([])
+0
+>>> def sum(seq):
+...     def add(x,y): return x+y
+...     return reduce(add, seq, 1)
+...
+>>> sum([])
+1
+>>> sum(range(1, 11))
+56
