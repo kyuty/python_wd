@@ -1,0 +1,30 @@
+# dict == map，key值有唯一性
+>>> tel = {'jack': 4098, 'sape': 4444, 'sape': 4139}  # 后面sape生效，前面的sape的值(4444)会被覆盖掉
+>>> tel
+{'sape': 4139, 'jack': 4098}
+>>> tel = {'jack': 4098, 'sape': 4139}
+>>> tel['guido'] = 4127								  # 增添一对key value
+>>> tel
+{'sape': 4139, 'guido': 4127, 'jack': 4098}
+>>> tel['jack']
+4098
+>>> del tel['sape']									  # 删除sape键值对
+>>> tel['irv'] = 4127
+>>> tel
+{'guido': 4127, 'irv': 4127, 'jack': 4098}
+>>> tel.keys()                                        # keys是以任意顺序打印的，可以使用sorted排序
+['guido', 'irv', 'jack']
+>>> 'guido' in tel									  # in的用法 查询
+True
+
+# dict() 声明
+>>> dict([('sape', 4139), ('guido', 4127), ('jack', 4098)])
+{'sape': 4139, 'jack': 4098, 'guido': 4127}
+
+# list comprehension的实现
+>>> {x: x**2 for x in (2, 4, 6)}
+{2: 4, 4: 16, 6: 36}
+
+# dict() 另一种声明
+>>> dict(sape=4139, guido=4127, jack=4098)
+{'sape': 4139, 'jack': 4098, 'guido': 4127}

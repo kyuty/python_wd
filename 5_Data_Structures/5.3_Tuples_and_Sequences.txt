@@ -1,0 +1,56 @@
+# list里的元素通常是同类的，可以通过遍历列表来访问
+# 元组通常是由不同元素组成的，且是元素不可更改
+>>> t = 12345, 54321, 'hello!'
+>>> t[0]
+12345
+>>> t
+(12345, 54321, 'hello!')
+>>> # Tuples may be nested:
+... u = t, (1, 2, 3, 4, 5)
+>>> u
+((12345, 54321, 'hello!'), (1, 2, 3, 4, 5))
+>>> u = t, 1, 2, 3, 4, 5
+>>> u
+((12345, 54321, 'hello!'), 1, 2, 3, 4, 5)
+>>> # Tuples are immutable: # tuples是不可更改的
+... t[0] = 88888
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: 'tuple' object does not support item assignment
+>>> # but they can contain mutable objects:
+... v = ([1, 2, 3], [3, 2, 1])
+>>> v
+([1, 2, 3], [3, 2, 1])
+
+# 空的元组
+>>> empty = ()
+>>> len(empty)
+0
+
+>>> singleton = 'hello'     # 没有逗号表示strings
+>>> singleton
+'hello'
+>>> len(singleton)
+5
+
+>>> singleton = 'hello',    # <-- note trailing comma # 注意这里有个逗号
+>>> singleton
+('hello',)                            # 这里打印的值，除了括号以外还有个逗号
+>>> len(singleton)
+1
+>>> singleton = 'hello', 'hello2'
+>>> singleton
+('hello', 'hello2')                   # 两个以上，打印的值后面没有逗号
+>>> singleton = 'hello', 'hello2',    # 两个以上，最后加不加逗号都ok
+>>> singleton
+('hello', 'hello2')
+
+# 反向从元组取值
+>>> t = 12345, 54321, 'hello!'   # 元组打包
+>>> x, y, z = t                  # 序列解包
+>>> x
+12345
+>>> y
+54321
+>>> z
+'hello!'
