@@ -1,0 +1,18 @@
+# 作为一个脚本去执行一个模块（组件）
+# 需要在模块的最后添加下面的代码
+if __name__ == "__main__":
+    import sys
+    fib(int(sys.argv[1]))
+    print ''
+    print fib2(int(sys.argv[1]))
+    _private()
+
+# 在终端执行
+$ python fibo.py 100
+1 1 2 3 5 8 13 21 34 55 89 
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+this is _private define
+
+# 如果该模块在解释器对话中被import，__main__下的代码也是不会执行的
+>>> import fibo
+>>>

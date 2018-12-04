@@ -1,0 +1,33 @@
+# 从fibo中导入fib方法 fib2方法
+# 注意这种方式fibo并没有被import，并没有被定义
+>>> from fibo import fib, fib2
+>>> fib(500)
+1 1 2 3 5 8 13 21 34 55 89 144 233 377
+>>> fibo.__name__
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name 'fibo' is not defined
+
+# import * 可以将大部分方法导入，除了以下划线开头的方法
+>>> from fibo import *
+>>> fib(100)
+1 1 2 3 5 8 13 21 34 55 89
+>>> fib2(100)
+[1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89]
+>>> _private()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: name '_private' is not defined
+
+# as，起别名
+>>> import fibo as fib # 导入fibo，并将fibo起一个别名叫fib
+>>> fib.fib(500)
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+# as，给模块里的方法起别名
+>>> from fibo import fib as fibonacci # 导入fib方法，并起一个别名叫fibonacci
+>>> fibonacci(500)
+0 1 1 2 3 5 8 13 21 34 55 89 144 233 377
+
+# 注意，每个模块在每个解释器会话中只会被导入一次。
+# 如果要更改模块，必须重启解释器，或者使用reload(modulename)函数

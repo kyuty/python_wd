@@ -1,0 +1,21 @@
+# sys是标准module
+# sys.ps1表示>>>
+# sys.ps2表示...
+# 都可以被修改
+>>> import sys
+>>> sys.ps1
+'>>> '
+>>> sys.ps2
+'... '
+>>> sys.ps1 = 'C> '
+C>
+C>
+C> print 'Yuck!'
+Yuck!
+C>
+C>
+C>
+
+# sys.path可以append
+>>> import sys
+>>> sys.path.append('/ufs/guido/lib/python')
