@@ -1,0 +1,11 @@
+如果__init__.py里定义了名为__all__的列表，则它将被视为遇到import *时应该导入的模块名称列表
+
+__all__ = ["echo", "surround", "reverse"]
+
+
+import sound.effects.echo
+import sound.effects.surround
+from sound.effects import *
+In this example, the echo and surround modules are imported in the current namespace because they are defined in the sound.effects package when the from...import statement is executed. (This also works when __all__ is defined.)
+
+echo和surround模块在当前的命名空间里被导入，因为它们是在执行from...import语句时在sound.effects包中定义

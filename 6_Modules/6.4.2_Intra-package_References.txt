@@ -1,0 +1,11 @@
+子模块可以相互引用
+surround模块可以引用echo模块
+
+在surround模块中，可以
+from . import echo
+from .. import formats
+from ..filters import equalizer # 注意..后面没有/
+
+
+Note that both explicit and implicit relative imports are based on the name of the current module. Since the name of the main module is always "__main__", modules intended for use as the main module of a Python application should always use absolute imports.
+请注意，显式和隐式相对导入都基于当前模块的名称。由于主模块的名称始终为“__main__”，因此用作Python应用程序主模块的模块应始终使用绝对导入
