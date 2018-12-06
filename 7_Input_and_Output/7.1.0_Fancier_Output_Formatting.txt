@@ -1,0 +1,207 @@
+# 通过str函数和repr函数，可以将int值等转化为字符串
+# str函数用于返回人类容易可读的值
+# repr函数用于生成解释器容易读取的值
+>>> s = 'Hello, world.'
+>>> s
+'Hello, world.'
+>>> str(s)
+'Hello, world.'
+>>> repr(s)                # 字符串有不同的表示方法
+"'Hello, world.'"
+>>> str(1.0/7.0)
+'0.142857142857'
+>>> repr(1.0/7.0)          # 浮点数精度比str高
+'0.14285714285714285'
+>>> x = 10 * 3.25
+>>> y = 200 * 200
+>>> s = 'The value of x is ' + repr(x) + ', and y is ' + repr(y) + '...'
+>>> print s
+The value of x is 32.5, and y is 40000...
+>>> # The repr() of a string adds string quotes and backslashes:
+... hello = 'hello, world\n'
+>>> hello
+'hello, world\n'
+>>> print hello
+hello, world
+
+>>> hellos = repr(hello)   # repr会给strings加引号，加反斜杠(转义)
+>>> hellos
+"'hello, world\\n'"
+>>> print hellos
+'hello, world\n'
+>>> # The argument to repr() may be any Python object: # repr函数的参数可以是任意Python对象
+... repr((x, y, ('spam', 'eggs')))
+"(32.5, 40000, ('spam', 'eggs'))"
+
+# 在两列中间，print函数会自动加一个空格
+# 注意在最后一行后面，没有回车
+>>> for x in range(1, 11):
+...     print repr(x), repr(x*x)
+...
+1 1
+2 4
+3 9
+4 16
+5 25
+6 36
+7 49
+8 64
+9 81
+10 100
+>>> for x in range(1, 11):
+...     print repr(x),   repr(x*x)
+...
+1 1
+2 4
+3 9
+4 16
+5 25
+6 36
+7 49
+8 64
+9 81
+10 100
+
+# 打印1到10的二次方和三次方
+# str.rjust函数 左侧填充空格，在给定宽度的字段中对字符串进行右对齐
+# str.ljust str.center
+# str.format
+>>> for x in range(1, 11):
+...     print repr(x).rjust(2), repr(x*x).rjust(3),
+...     # Note trailing comma on previous line # 注意前一行最后有个逗号，下一行最后没有逗号
+...     print repr(x*x*x).rjust(4)
+...
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+>>> for x in range(1, 11):
+...     print repr(x).rjust(2), repr(x*x).rjust(3), repr(x*x*x).rjust(4)   # 没必要在print一次3次方的，写在一行即可
+...
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+>>> for x in range(1,11):
+...     print '{0:2d} {1:3d} {2:4d}'.format(x, x*x, x*x*x)     # :d的用法
+...
+ 1   1    1
+ 2   4    8
+ 3   9   27
+ 4  16   64
+ 5  25  125
+ 6  36  216
+ 7  49  343
+ 8  64  512
+ 9  81  729
+10 100 1000
+>>> for x in range(1,11):
+...     print '{0:2d}{1:3d}{2:4d}'.format(x, x*x, x*x*x)       # 去掉了str里的空格，打印如下
+...
+ 1  1   1
+ 2  4   8
+ 3  9  27
+ 4 16  64
+ 5 25 125
+ 6 36 216
+ 7 49 343
+ 8 64 512
+ 9 81 729
+101001000
+>>> for x in range(1,11):
+...     print '{0} {1} {2}'.format(x, x*x, x*x*x)             # 去掉了:d 打印如下
+...
+1 1 1
+2 4 8
+3 9 27
+4 16 64
+5 25 125
+6 36 216
+7 49 343
+8 64 512
+9 81 729
+10 100 1000
+>>> for x in range(1,11):
+...     print '{0:d} {1:d} {2:d}'.format(x, x*x, x*x*x)       # 加上:d，但指定数字，打印结果和不加:d相同
+...
+1 1 1
+2 4 8
+3 9 27
+4 16 64
+5 25 125
+6 36 216
+7 49 343
+8 64 512
+9 81 729
+10 100 1000
+
+# str.zfill函数
+# 填充n位，包括小数点和正负号，向前补0
+>>> '12'.zfill(5)
+'00012'
+>>> '-3.14'.zfill(7)
+'-003.14'
+>>> '3.14159265359'.zfill(5)  # 不会截掉
+'3.14159265359'
+
+# format用法
+>>> print 'We are the {} who say "{}!"'.format('knights', 'Ni')
+We are the knights who say "Ni!"
+
+# 带有position的format
+>>> print '{} and {}'.format('spam', 'eggs')
+spam and eggs
+>>> print '{0} and {1}'.format('spam', 'eggs')
+spam and eggs
+>>> print '{1} and {0}'.format('spam', 'eggs')
+eggs and spam
+
+# 带key关键字的format
+>>> print 'This {food} is {adjective}.'.format(
+...       food='spam', adjective='absolutely horrible')
+This spam is absolutely horrible.
+
+# 带有positon和key的format
+>>> print 'The story of {0}, {1}, and {other}.'.format('Bill', 'Manfred',
+...                                                    other='Georg')
+The story of Bill, Manfred, and Georg.
+
+# !s 表示 str()
+# !r 表示 repr()
+>>> import math
+>>> print 'The value of PI is approximately {}.'.format(math.pi)
+The value of PI is approximately 3.14159265359.
+>>> print 'The value of PI is approximately {!s}.'.format(math.pi)
+The value of PI is approximately 3.14159265359.
+>>> print 'The value of PI is approximately {!r}.'.format(math.pi)
+The value of PI is approximately 3.141592653589793.
+
+# '{0[key]}'.format(table)
+>>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+>>> print 'Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; Dcab: {0[Dcab]:d}'.format(table)
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+>>> print 'Jack: {0[Jack]}; Sjoerd: {0[Sjoerd]}; Dcab: {0[Dcab]}'.format(table)    # 去掉了:d，打印结果没变
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+>>> print ('Jack: {0[Jack]:d}; Sjoerd: {0[Sjoerd]:d}; '
+...        'Dcab: {0[Dcab]:d}'.format(table))    # 当换了行,整体加了括号,第一行字符串用''括起来,第二个字符串也用''括起来. 
+...                                              # format前面不需要给第二个字符串和第一个字符串加()
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+
+# '{key}'.format(**table)
+>>> table = {'Sjoerd': 4127, 'Jack': 4098, 'Dcab': 8637678}
+>>> print 'Jack: {Jack:d}; Sjoerd: {Sjoerd:d}; Dcab: {Dcab:d}'.format(**table)
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
+>>> print 'Jack: {Jack}; Sjoerd: {Sjoerd}; Dcab: {Dcab}'.format(**table)
+Jack: 4098; Sjoerd: 4127; Dcab: 8637678
