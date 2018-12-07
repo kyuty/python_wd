@@ -1,0 +1,171 @@
+To read a file’s contents, call f.read(size), which reads some quantity of data and returns it as a string. size is an optional numeric argument. When size is omitted or negative, the entire contents of the file will be read and returned; it’s your problem if the file is twice as large as your machine’s memory. Otherwise, at most size bytes are read and returned. If the end of the file has been reached, f.read() will return an empty string ("").
+
+要读取文件的内容，请调用f.read(size)，它读取一些数据并将其作为字符串返回。 
+size是可选的数字参数。当省略size或negative时，将读取并返回文件的全部内容;
+如果文件的大小是机器内存的两倍，那么这就是你的问题。否则，最多读取并返回大小字节。
+如果已到达文件末尾，f.read()将返回一个空字符串("")。
+
+>>> f = open('workfile', 'r+')
+>>> f.read()   # 返回全部内容
+'This is the first line of the file.\nSecond line of the file.\n\nThird line of the file.\n'
+>>> f.read()   # 已经到达文件末尾，返回一个空字符串
+''
+>>> f.read()
+''
+>>> f.close()
+
+# readline  读取一行
+>>> f = open('workfile', 'r+')
+>>> f.readline()
+'This is the first line of the file.\n'
+>>> f.readline()
+'Second line of the file.\n'
+>>> f.readline()                # 打印换行
+'\n'
+>>> f.readline()
+'Third line of the file.\n'
+>>> f.readline()
+''
+>>> f.close()
+
+# for in 用法
+# 循环遍历文件对象
+>>> f = open('workfile', 'r+')
+>>> for line in f:
+...     print line,
+...
+This is the first line of the file.
+Second line of the file.
+
+Third line of the file.
+>>> f.close()
+
+# list函数 readlines函数
+# 如果想要读取所有行到一个list，可以使用list(file) or file.readlines()
+>>> f = open('workfile', 'r+')
+>>> list(f)
+['This is the first line of the file.\n', 'Second line of the file.\n', '\n', 'Third line of the file.\n']
+>>> f.close()
+
+>>> f = open('workfile', 'r+')
+>>> l = list(f)
+>>> l
+['This is the first line of the file.\n', 'Second line of the file.\n', '\n', 'Third line of the file.\n']
+>>> print l
+['This is the first line of the file.\n', 'Second line of the file.\n', '\n', 'Third line of the file.\n']
+>>> f.close()
+
+>>> f = open('workfile', 'r+')
+>>> f.readlines()
+['This is the first line of the file.\n', 'Second line of the file.\n', '\n', 'Third line of the file.\n']
+>>> f.close()
+
+>>> f = open('workfile', 'r+')
+>>> l = f.readlines()
+>>> l
+['This is the first line of the file.\n', 'Second line of the file.\n', '\n', 'Third line of the file.\n']
+>>> f.close()
+
+# tell函数  打印当前的位置;index是从1开始的; \n属于一个位置
+# test_tell_and_seek.txt 里面的内容 123456789
+>>> f = open('test_tell_and_seek.txt', 'r+')
+>>> f.tell()      # 当前位置在0
+0
+>>> f.read(1)     # 基于当前位置 读取1个位置
+'1'
+>>> f.tell()      # 当前位置在1
+1
+>>> f.read(8)     # 基于当前位置 读取8个位置
+'23456789'
+>>> f.tell()      # 当前位置在9
+9
+>>> f.read(1)     # 基于当前位置 读取1个位置
+'\n'
+>>> f.tell()      # 当前位置在10
+10
+>>> f.read()
+''
+>>> f.tell()
+10
+>>> f.close()
+
+# seek(offset, from_what)函数  改变当前的位置
+#      offset表示位移，from_what 0表示以文件开头为起点；1表示以当前位置为起点；2表示以文件结尾为起点，默认值是0
+>>> f = open('test_tell_and_seek.txt', 'r+')
+>>> f.read()
+'123456789\n'
+>>> f.tell()
+10
+>>> f.seek(1)          # 基于开头位置(0位置),移动1个位置
+>>> f.tell()
+1
+>>> f.read()
+'23456789\n'
+>>>
+>>>
+>>> f.seek(0, 2)       # 基于末尾位置(10位置),移动0个位置
+>>> f.tell()
+10
+>>> f.read()
+''
+>>> f.seek(-3, 2)      # 基于末尾位置(10位置),移动-3个位置
+>>> f.tell()           # 当前位置在7(10-3)的位置
+7
+>>> f.read()
+'89\n'
+>>> f.seek(4, 2)       # 基于末尾位置(10位置),移动4个位置
+>>> f.tell()           # 当前位置在14(10+4),移除了最大位置,之后再read是空字符串('')
+14
+>>> f.read()           # 由于移除了最大位置,再read是空字符串('')
+''
+>>>
+>>>
+>>> f.seek(-4, 2)      # 基于末尾位置(10位置),移动-4个位置
+>>> f.tell()           # 当前位置在6(10-4)的位置
+6
+>>> f.seek(2, 1)       # 基于当前位置(6位置),移动2个位置
+>>> f.tell()           # 当前位置在8(6+2)的位置
+8
+>>> f.read()
+'9\n'
+>>> f.close()
+
+
+# write函数
+>>> ###### 用w模式，删除原来的test_write.txt文件，创建空的test_write.txt文件 begin #######
+>>> f = open('test_write.txt', 'w')
+>>> f.read()                          # 不可以被读取
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IOError: File not open for reading
+>>>
+>>> f.close()
+>>> ###### 用w模式，删除原来的test_write.txt文件，创建空的test_write.txt文件  end  #######
+>>> f = open('test_write.txt', 'r+')  # r+ 可读可写test_write.txt文件
+>>> f.write('This is a test\n')       # 写入string
+>>> value = ('the answer', 42)
+>>> s = str(value)
+>>> f.write(s)                        # 写入str
+>>> f.read()
+''
+>>> f.seek(0)                         # 将位置移动到开头
+>>> f.read()
+"This is a test\n('the answer', 42)"
+>>> f.close()
+
+# with关键字 类似于java里的try finally
+# closed变量
+# 防止file忘记close
+>>> with open('workfile', 'r+') as f:     # with语句 当with里面的语句产生异常的话，也会正常关闭文件
+...     read_data = f.read()
+...
+>>> f.closed                              # 查询f是否已经关闭
+True
+>>> read_data
+'This is the first line of the file.\nSecond line of the file.\n\nThird line of the file.\n'
+
+
+
+File objects have some additional methods, such as isatty() and truncate() which are less frequently used; consult the Library Reference for a complete guide to file objects.
+
+文件对象还有一些额外的方法 isatty函数和truncate函数

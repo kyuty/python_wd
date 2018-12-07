@@ -1,0 +1,17 @@
+# 第一个参数是文件名
+# 第二个参数是mode
+# 'r' 只读   'w' 写入(会删除具有相同名称的文件)  'a' 打开文件进行追加
+# 'r+' 打开文件进行读写
+# 第二个参数是可选的，如果省略，默认是'r'
+>>> f = open('workfile', 'w')
+>>> print f
+<open file 'workfile', mode 'w' at 80a0960>
+
+On Windows, 'b' appended to the mode opens the file in binary mode, so there are also modes like 'rb', 'wb', and 'r+b'. Python on Windows makes a distinction between text and binary files; the end-of-line characters in text files are automatically altered slightly when data is read or written. This behind-the-scenes modification to file data is fine for ASCII text files, but it’ll corrupt binary data like that in JPEG or EXE files. Be very careful to use binary mode when reading and writing such files. On Unix, it doesn’t hurt to append a 'b' to the mode, so you can use it platform-independently for all binary files.
+
+在Windows上，附加到模式的'b'以二进制模式打开文件，因此还有'rb'，'wb'和'r + b'等模式。 
+Windows上的Python区分了文本和二进制文件;读取或写入数据时，文本文件中的行尾字符会自动稍微改变。
+这种对文件数据的幕后修改适用于ASCII文本文件，但它会破坏像JPEG或EXE文件中的二进制数据。
+在读取和写入此类文件时要非常小心地使用二进制模式。
+
+在Unix上，将'b'附加到该模式并不会有什么坏处，因此您可以将它独立于平台用于所有二进制文件。
