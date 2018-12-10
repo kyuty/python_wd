@@ -1,0 +1,18 @@
+# raise关键字，强制抛出异常
+>>> raise NameError('HiThere')
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+NameError: HiThere
+
+# If you need to determine whether an exception was raised but don’t intend to handle it, a simpler form of the raise statement allows you to re-raise the exception:
+# 如果您需要确定是否引发了异常但不打算处理它，则可以使用更简单的raise语句形式重新引发异常：
+>>> try:
+...     raise NameError('HiThere')
+... except NameError:
+...     print 'An exception flew by!'
+...     raise
+...
+An exception flew by!
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+NameError: HiThere

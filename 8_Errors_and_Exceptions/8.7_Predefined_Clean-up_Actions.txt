@@ -1,0 +1,12 @@
+# 预处理
+# 方式1容易忘记将open的file close
+# 方式2采用预处理的方式，即with关键字，防止file没有被close
+
+# 方式1
+for line in open("myfile.txt"):
+    print line,
+
+# 方式2
+with open("myfile.txt") as f:
+    for line in f:
+        print line,

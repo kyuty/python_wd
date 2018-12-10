@@ -1,0 +1,7 @@
+Objects have individuality, and multiple names (in multiple scopes) can be bound to the same object.
+
+对象是唯一的，多个名称可以绑定到同一个对象
+
+However, aliasing has a possibly surprising effect on the semantics of Python code involving mutable objects such as lists, dictionaries, and most other types. This is usually used to the benefit of the program, since aliases behave like pointers in some respects. 
+
+但是，别名对涉及可变对象（如列表，字典和大多数其他类型）的Python代码的语义可能会产生惊人的影响。 这通常用于程序的好处，因为别名在某些方面表现得像指针。

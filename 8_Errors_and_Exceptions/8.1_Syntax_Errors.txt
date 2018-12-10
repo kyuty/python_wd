@@ -1,0 +1,7 @@
+# 语法错误(解析错误)
+# 在print处检查到错误，因为它之前缺少冒号
+>>> while True print 'Hello world'
+  File "<stdin>", line 1
+    while True print 'Hello world'
+                   ^
+SyntaxError: invalid syntax
