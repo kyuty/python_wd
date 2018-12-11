@@ -1,0 +1,25 @@
+A namespace is a mapping from names to objects. 
+
+命名空间是从名称到对象的映射。
+
+Most namespaces are currently implemented as Python dictionaries, but that’s normally not noticeable in any way (except for performance), and it may change in the future. 
+
+大多数名称空间当前都是作为Python词典实现的，但通常不会以任何方式显示（性能除外），并且它可能在将来发生变化。
+
+Examples of namespaces are: 
+the set of built-in names (containing functions such as abs(), and built-in exception names);
+the global names in a module; 
+and the local names in a function invocation. 
+
+名称空间的示例如下：
+内置名称集（包含abs（）等函数和内置异常名称）;
+模块中的全局名称;
+和函数调用中的本地名称。
+
+In a sense the set of attributes of an object also form a namespace. 
+
+在某种意义上，对象的属性集也形成了命名空间。
+
+The important thing to know about namespaces is that there is absolutely no relation between names in different namespaces; for instance, two different modules may both define a function maximize without confusion — users of the modules must prefix it with the module name.
+
+关于命名空间的重要一点是，不同命名空间中的名称之间绝对没有关系;例如，两个不同的模块都可以定义函数最大化而不会混淆 - 模块的用户必须在其前面加上模块名称。
