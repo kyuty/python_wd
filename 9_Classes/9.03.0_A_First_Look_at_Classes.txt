@@ -1,0 +1,3 @@
+Classes introduce a little bit of new syntax, three new object types, and some new semantics.
+
+类引入了一些新语法，三种新对象类型和一些新语义。
