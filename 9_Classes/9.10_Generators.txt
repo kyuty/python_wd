@@ -1,0 +1,42 @@
+Generators are a simple and powerful tool for creating iterators. They are written like regular functions but use the yield statement whenever they want to return data. Each time next() is called on it, the generator resumes where it left off (it remembers all the data values and which statement was last executed). An example shows that generators can be trivially easy to create:
+
+生成器是一个用于创建迭代器的简单而强大的工具。它们像常规函数一样编写，但只要想要返回数据就使用yield语句。每次调用next()时，生成器都会从中断处继续（它会记住所有数据值以及上次执行的语句）。一个例子表明，生成器很容易创建：
+
+# yield函数
+>>> def reverse(data):
+...     for index in range(len(data)-1, -1, -1):
+...         yield data[index]
+>>> for char in reverse('golf'):
+...     print char
+...
+f
+l
+o
+g
+>>> def reverse(data):
+...     for index in range(len(data)-1, -1, -1):
+...         print 'index = ', index
+...         yield data[index]
+...
+>>> for char in reverse('data'):
+...     print char
+...
+index =  3
+a
+index =  2
+t
+index =  1
+a
+index =  0
+d
+Anything that can be done with generators can also be done with class-based iterators as described in the previous section. What makes generators so compact is that the __iter__() and next() methods are created automatically.
+
+任何可以使用生成器完成的操作也可以使用基于类的迭代器完成，如上一节中所述。使生成器如此紧凑的原因是__iter __()和next()方法是自动创建的。
+
+Another key feature is that the local variables and execution state are automatically saved between calls. This made the function easier to write and much more clear than an approach using instance variables like self.index and self.data.
+
+另一个关键特性是在调用之间自动保存局部变量和执行状态。与使用self.index和self.data等实例变量的方法相比，这使得函数更容易编写并且更加清晰。
+
+In addition to automatic method creation and saving program state, when generators terminate, they automatically raise StopIteration. In combination, these features make it easy to create iterators with no more effort than writing a regular function.
+
+除了自动创建方法和保存程序状态外，当生成器终止时，它们会自动引发StopIteration。结合使用这些功能，可以轻松创建迭代器，而不需要编写常规函数。

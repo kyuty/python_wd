@@ -1,0 +1,25 @@
+Python supports a limited form of multiple inheritance as well. A class definition with multiple base classes looks like this:
+
+Python也支持有限形式的多重继承。具有多个基类的类定义如下所示：
+
+class DerivedClassName(Base1, Base2, Base3):
+    <statement-1>
+    .
+    .
+    .
+    <statement-N>
+For old-style classes, the only rule is depth-first, left-to-right. Thus, if an attribute is not found in DerivedClassName, it is searched in Base1, then (recursively) in the base classes of Base1, and only if it is not found there, it is searched in Base2, and so on.
+
+对于旧式课程，唯一的规则是深度优先，从左到右。因此，如果在DerivedClassName中找不到属性，则在Base1中搜索它，然后（递归地）在Base1的基类中搜索，并且只有在那里找不到它时，才在Base2中搜索它，依此类推。
+
+(To some people breadth first — searching Base2 and Base3 before the base classes of Base1 — looks more natural. However, this would require you to know whether a particular attribute of Base1 is actually defined in Base1 or in one of its base classes before you can figure out the consequences of a name conflict with an attribute of Base2. The depth-first rule makes no differences between direct and inherited attributes of Base1.)
+
+（对于某些人来说，首先 - 在Base1的基类之前搜索Base2和Base3  - 看起来更自然。但是，这需要您知道Base1的特定属性是否实际在Base1中或在其基类之一中定义可以找出名称与Base2属性冲突的后果。深度优先规则在Base1的直接属性和继承属性之间没有区别。）
+
+For new-style classes, the method resolution order changes dynamically to support cooperative calls to super(). This approach is known in some other multiple-inheritance languages as call-next-method and is more powerful than the super call found in single-inheritance languages.
+
+对于新式类，方法解析顺序动态更改以支持对super()的协作调用。这种方法在一些其他多继承语言中称为call-next-method，并且比单继承语言中的超级调用更强大。
+
+With new-style classes, dynamic ordering is necessary because all cases of multiple inheritance exhibit one or more diamond relationships (where at least one of the parent classes can be accessed through multiple paths from the bottommost class). For example, all new-style classes inherit from object, so any case of multiple inheritance provides more than one path to reach object. To keep the base classes from being accessed more than once, the dynamic algorithm linearizes the search order in a way that preserves the left-to-right ordering specified in each class, that calls each parent only once, and that is monotonic (meaning that a class can be subclassed without affecting the precedence order of its parents). Taken together, these properties make it possible to design reliable and extensible classes with multiple inheritance. For more detail, see https://www.python.org/download/releases/2.3/mro/.
+
+对于新式类，动态排序是必要的，因为所有多重继承的情况都表现出一个或多个菱形关系（其中至少有一个父类可以通过最底层的多个路径访问）。例如，所有新样式类都继承自object，因此任何多重继承的情况都会提供多个到达对象的路径。为了防止基类被多次访问，动态算法将搜索顺序线性化，以保留每个类中指定的从左到右的顺序，只调用每个父类一次，这是单调的（意思是一个类可以被子类化，而不会影响其父级的优先顺序）。总之，这些属性使得设计具有多重继承的可靠且可扩展的类成为可能。有关更多详细信息，请参阅https://www.python.org/download/releases/2.3/mro/

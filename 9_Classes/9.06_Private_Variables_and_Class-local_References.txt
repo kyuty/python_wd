@@ -1,0 +1,41 @@
+“Private” instance variables that cannot be accessed except from inside an object don’t exist in Python. However, there is a convention that is followed by most Python code: a name prefixed with an underscore (e.g. _spam) should be treated as a non-public part of the API (whether it is a function, a method or a data member). It should be considered an implementation detail and subject to change without notice.
+
+Python中不存在除对象内部之外无法访问的“私有”实例变量。但是，大多数Python代码都遵循一个约定：前缀为下划线的名称（例如_spam）应被视为API的非公共部分（无论是函数，方法还是数据成员） 。它应被视为实施细节，如有更改，恕不另行通知。
+
+Since there is a valid use-case for class-private members (namely to avoid name clashes of names with names defined by subclasses), there is limited support for such a mechanism, called name mangling. Any identifier of the form __spam (at least two leading underscores, at most one trailing underscore) is textually replaced with _classname__spam, where classname is the current class name with leading underscore(s) stripped. This mangling is done without regard to the syntactic position of the identifier, as long as it occurs within the definition of a class.
+
+由于类私有成员有一个有效的用例（即为了避免名称与子类定义的名称冲突），因此对这种称为名称修改的机制的支持有限。形式__spam的任何标识符（至少两个前导下划线，最多一个尾随下划线）在文本上用_classname__spam替换，其中classname是当前类名，其中前导下划线被剥离。只要它出现在类的定义中，就可以在不考虑标识符的句法位置的情况下完成这种修改。
+
+Name mangling is helpful for letting subclasses override methods without breaking intraclass method calls. For example:
+
+名称修改有助于让子类覆盖方法而不破坏类内方法调用。例如：
+
+class Mapping:
+    def __init__(self, iterable):
+        self.items_list = []
+        self.__update(iterable)
+
+    def update(self, iterable):
+        for item in iterable:
+            self.items_list.append(item)
+
+    __update = update   # private copy of original update() method
+
+class MappingSubclass(Mapping):
+
+    def update(self, keys, values):
+        # provides new signature for update()
+        # but does not break __init__()
+        for item in zip(keys, values):
+            self.items_list.append(item)
+The above example would work even if MappingSubclass were to introduce a __update identifier since it is replaced with _Mapping__update in the Mapping class and _MappingSubclass__update in the MappingSubclass class respectively.
+
+即使MappingSubclass要引入__update标识符，上面的示例也会起作用，因为它分别被Mapping类中的_Mapping__update和MappingSubclass类中的_MappingSubclass__update替换。
+
+Note that the mangling rules are designed mostly to avoid accidents; it still is possible to access or modify a variable that is considered private. This can even be useful in special circumstances, such as in the debugger.
+
+请注意，修剪规则主要是为了避免事故;它仍然可以访问或修改被视为私有的变量。这在特殊情况下甚至可能很有用，例如在调试器中。
+
+Notice that code passed to exec, eval() or execfile() does not consider the classname of the invoking class to be the current class; this is similar to the effect of the global statement, the effect of which is likewise restricted to code that is byte-compiled together. The same restriction applies to getattr(), setattr() and delattr(), as well as when referencing __dict__ directly.
+
+请注意，传递给exec，eval（）或execfile（）的代码不会将调用类的类名视为当前类;这类似于全局语句的效果，其效果同样限于字节编译在一起的代码。同样的限制适用于getattr（），setattr（）和delattr（），以及直接引用__dict__时。

@@ -1,0 +1,60 @@
+Data attributes override method attributes with the same name; to avoid accidental name conflicts, which may cause hard-to-find bugs in large programs, it is wise to use some kind of convention that minimizes the chance of conflicts. Possible conventions include capitalizing method names, prefixing data attribute names with a small unique string (perhaps just an underscore), or using verbs for methods and nouns for data attributes.
+
+数据属性覆盖具有相同名称的方法属性;为了避免可能导致大型程序中难以发现的错误的意外名称冲突，使用某种最小化冲突机会的约定是明智的。可能的约定包括大写方法名称，使用小的唯一字符串（可能只是下划线）为数据属性名称加前缀，或者使用动词作为数据属性的方法和名词。
+
+Data attributes may be referenced by methods as well as by ordinary users (“clients”) of an object. In other words, classes are not usable to implement pure abstract data types. In fact, nothing in Python makes it possible to enforce data hiding — it is all based upon convention. (On the other hand, the Python implementation, written in C, can completely hide implementation details and control access to an object if necessary; this can be used by extensions to Python written in C.)
+
+数据属性可以由方法以及对象的普通用户（“客户端”）引用。换句话说，类不可用于实现纯抽象数据类型。事实上，Python中没有任何东西可以强制执行数据隐藏 - 它完全基于约定。 （另一方面，用C语言编写的Python实现可以完全隐藏实现细节并在必要时控制对对象的访问;这可以由用C编写的Python的扩展来使用。）
+
+Clients should use data attributes with care — clients may mess up invariants maintained by the methods by stamping on their data attributes. Note that clients may add data attributes of their own to an instance object without affecting the validity of the methods, as long as name conflicts are avoided — again, a naming convention can save a lot of headaches here.
+
+客户端应谨慎使用数据属性 - 客户端可能会通过标记其数据属性来破坏方法维护的不变量。请注意，客户端可以将自己的数据属性添加到实例对象，而不会影响方法的有效性，只要避免名称冲突 - 同样，命名约定可以在这里节省很多麻烦。
+
+There is no shorthand for referencing data attributes (or other methods!) from within methods. I find that this actually increases the readability of methods: there is no chance of confusing local variables and instance variables when glancing through a method.
+
+从方法中引用数据属性（或其他方法！）没有简写。我发现这实际上增加了方法的可读性：当浏览方法时，没有可能混淆局部变量和实例变量。
+
+Often, the first argument of a method is called self. This is nothing more than a convention: the name self has absolutely no special meaning to Python. Note, however, that by not following the convention your code may be less readable to other Python programmers, and it is also conceivable that a class browser program might be written that relies upon such a convention.
+
+通常，方法的第一个参数称为self。这只不过是一个惯例：名称self对Python来说绝对没有特殊意义。但请注意，如果不遵循惯例，您的代码可能对其他Python程序员来说可读性较低，并且可以想象可能会编写依赖于此类约定的类浏览器程序。
+
+Any function object that is a class attribute defines a method for instances of that class. It is not necessary that the function definition is textually enclosed in the class definition: assigning a function object to a local variable in the class is also ok. For example:
+
+作为类属性的任何函数对象都为该类的实例定义了一个方法。函数定义不必在文本中包含在类定义中：将函数对象赋值给类中的局部变量也是可以的。例如：
+
+# Function defined outside the class
+def f1(self, x, y):
+    return min(x, x+y)
+
+class C:
+    f = f1
+
+    def g(self):
+        return 'hello world'
+
+    h = g
+Now f, g and h are all attributes of class C that refer to function objects, and consequently they are all methods of instances of C — h being exactly equivalent to g. Note that this practice usually only serves to confuse the reader of a program.
+
+现在f，g和h都是C类引用函数对象的属性，因此它们都是C  -  h实例的方法，与g完全等价。请注意，这种做法通常只会使程序的读者感到困惑。
+
+Methods may call other methods by using method attributes of the self argument:
+
+方法可以通过使用self参数的方法属性来调用其他方法：
+
+class Bag:
+    def __init__(self):
+        self.data = []
+
+    def add(self, x):
+        self.data.append(x)
+
+    def addtwice(self, x):
+        self.add(x)
+        self.add(x)
+Methods may reference global names in the same way as ordinary functions. The global scope associated with a method is the module containing its definition. (A class is never used as a global scope.) While one rarely encounters a good reason for using global data in a method, there are many legitimate uses of the global scope: for one thing, functions and modules imported into the global scope can be used by methods, as well as functions and classes defined in it. Usually, the class containing the method is itself defined in this global scope, and in the next section we’ll find some good reasons why a method would want to reference its own class.
+
+方法可以以与普通函数相同的方式引用全局名称。与方法关联的全局范围是包含其定义的模块。 （一个类永远不会被用作全局范围。）虽然很少遇到在方法中使用全局数据的充分理由，但是全局范围有许多合法用途：一方面，导入全局范围的函数和模块可以由方法，以及在其中定义的函数和类使用。通常，包含该方法的类本身在此全局范围内定义，在下一节中，我们将找到一些方法想要引用其自己的类的一些很好的理由。
+
+Each value is an object, and therefore has a class (also called its type). It is stored as object.__class__.
+
+每个值都是一个对象，因此有一个类（也称为其类型）。它存储为对象.__ class__。

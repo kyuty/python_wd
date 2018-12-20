@@ -1,0 +1,44 @@
+Of course, a language feature would not be worthy of the name “class” without supporting inheritance. The syntax for a derived class definition looks like this:
+
+当然，如果不支持继承，语言特性就不值得称为“类”。派生类定义的语法如下所示：
+
+class DerivedClassName(BaseClassName):
+    <statement-1>
+    .
+    .
+    .
+    <statement-N>
+The name BaseClassName must be defined in a scope containing the derived class definition. In place of a base class name, other arbitrary expressions are also allowed. This can be useful, for example, when the base class is defined in another module:
+
+必须在包含派生类定义的作用域中定义名称BaseClassName。代替基类名称，也允许使用其他任意表达式。这可能很有用，例如，在另一个模块中定义基类时：
+
+class DerivedClassName(modname.BaseClassName):
+Execution of a derived class definition proceeds the same as for a base class. When the class object is constructed, the base class is remembered. This is used for resolving attribute references: if a requested attribute is not found in the class, the search proceeds to look in the base class. This rule is applied recursively if the base class itself is derived from some other class.
+
+派生类定义的执行与基类的执行相同。构造类对象时，会记住基类。这用于解析属性引用：如果在类中找不到请求的属性，则搜索继续查找基类。如果基类本身是从其他类派生的，则递归应用此规则。
+
+There’s nothing special about instantiation of derived classes: DerivedClassName() creates a new instance of the class. Method references are resolved as follows: the corresponding class attribute is searched, descending down the chain of base classes if necessary, and the method reference is valid if this yields a function object.
+
+关于派生类的实例化没有什么特别之处：DerivedClassName()创建了一个新的类实例。方法引用按如下方式解析：搜索相应的类属性，如果需要，沿着基类链向下移动，如果生成函数对象，则方法引用有效。
+
+Derived classes may override methods of their base classes. Because methods have no special privileges when calling other methods of the same object, a method of a base class that calls another method defined in the same base class may end up calling a method of a derived class that overrides it. (For C++ programmers: all methods in Python are effectively virtual.)
+
+派生类可以覆盖其基类的方法。因为方法在调用同一对象的其他方法时没有特殊权限，所以调用同一基类中定义的另一个方法的基类方法最终可能会调用覆盖它的派生类的方法。 （对于C++程序员：Python中的所有方法都是虚拟的。）
+
+An overriding method in a derived class may in fact want to extend rather than simply replace the base class method of the same name. There is a simple way to call the base class method directly: just call BaseClassName.methodname(self, arguments). This is occasionally useful to clients as well. (Note that this only works if the base class is accessible as BaseClassName in the global scope.)
+
+派生类中的重写方法实际上可能希望扩展而不是简单地替换同名的基类方法。有一种直接调用基类方法的简单方法：只需调用BaseClassName.methodname（self，arguments）。这对客户来说偶尔也很有用。 （请注意，这仅在基类可以作为全局范围内的BaseClassName访问时才有效。）
+
+Python has two built-in functions that work with inheritance:
+
+Python有两个内置函数可以继承：
+
+Use isinstance() to check an instance’s type: isinstance(obj, int) will be True only if obj.__class__ is int or some class derived from int.
+Use issubclass() to check class inheritance: issubclass(bool, int) is True since bool is a subclass of int. However, issubclass(unicode, str) is False since unicode is not a subclass of str (they only share a common ancestor, basestring).
+
+使用isinstance()来检查实例的类型：只有当obj.__ class__是int或某个派生自int的类时，isinstance(obj,int)才为True。
+使用issubclass()检查类继承：issubclass(bool,int)为True，因为bool是int的子类。但是，issubclass(unicode,str)是False，因为unicode不是str的子类（它们只共享一个共同的祖先，basestring）。
+
+# isinstance(obj,int) 判断obj是否int类型
+# issubclass(bool,int) 判断bool是否是int的子类 结果为True
+# issubclass(unicode,str) 判断unicode是否是str的子类 结果为False

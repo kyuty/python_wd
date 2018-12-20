@@ -1,0 +1,62 @@
+User-defined exceptions are identified by classes as well. Using this mechanism it is possible to create extensible hierarchies of exceptions.
+
+用户定义的异常也由类标识。使用此机制，可以创建可扩展的异常层次结构。
+
+There are two new valid (semantic) forms for the raise statement:
+
+raise语句有两种新的有效（语义）形式：
+
+raise Class, instance
+
+raise instance
+In the first form, instance must be an instance of Class or of a class derived from it. The second form is a shorthand for:
+
+在第一种形式中，实例必须是Class的实例或从它派生的类的实例。第二种形式是：
+
+raise instance.__class__, instance
+A class in an except clause is compatible with an exception if it is the same class or a base class thereof (but not the other way around — an except clause listing a derived class is not compatible with a base class). For example, the following code will print B, C, D in that order:
+
+如果一个类是同一个类或它的基类，那么except子句中的类与异常兼容（但不是相反 - 列出派生类的except子句与基类不兼容）。例如，以下代码将按以下顺序打印B，C，D：
+
+>>> class B:
+...     pass
+...
+>>> class C(B):
+...     pass
+...
+>>> class D(C):
+...     pass
+...
+>>> for c in [B, C, D]:
+...     try:
+...         raise c()
+...     except D:
+...         print "D"
+...     except C:
+...         print "C"
+...     except B:
+...         print "B"
+...
+B
+C
+D
+>>> for c in [B, C, D]:
+...     try:
+...         raise c()
+...     except B:
+...         print "B"
+...     except C:
+...         print "C"
+...     except D:
+...         print "D"
+...
+B
+B
+B
+Note that if the except clauses were reversed (with except B first), it would have printed B, B, B — the first matching except clause is triggered.
+
+请注意，如果except子句被颠倒（除了B之外），它将打印B，B，B  - 触发第一个匹配的except子句。
+
+When an error message is printed for an unhandled exception, the exception’s class name is printed, then a colon and a space, and finally the instance converted to a string using the built-in function str().
+
+当为未处理的异常打印错误消息时，将打印异常的类名，然后是冒号和空格，最后使用内置函数str()将实例转换为字符串。
