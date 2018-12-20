@@ -1,0 +1,23 @@
+The math module gives access to the underlying C library functions for floating point math:
+
+math模块可以访问浮点数学的底层C库函数：
+
+>>> import math
+>>> math.cos(math.pi / 4.0)
+0.70710678118654757
+>>> math.log(1024, 2)
+10.0
+
+The random module provides tools for making random selections:
+
+随机模块提供了进行随机选择的工具：
+
+>>> import random
+>>> random.choice(['apple', 'pear', 'banana'])
+'apple'
+>>> random.sample(xrange(100), 10)   # sampling without replacement
+[30, 83, 16, 4, 8, 81, 41, 50, 18, 33]
+>>> random.random()    # random float
+0.17970987693706186
+>>> random.randrange(6)    # random integer chosen from range(6)
+4

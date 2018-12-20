@@ -1,0 +1,9 @@
+The glob module provides a function for making file lists from directory wildcard searches:
+
+glob模块提供了一个从目录通配符搜索中创建文件列表的功能：
+
+# glob模块
+# glob函数
+>>> import glob
+>>> glob.glob('*.py')
+['primes.py', 'random.py', 'quote.py']

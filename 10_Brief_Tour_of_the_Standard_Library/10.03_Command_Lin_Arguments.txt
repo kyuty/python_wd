@@ -1,0 +1,11 @@
+Common utility scripts often need to process command line arguments. These arguments are stored in the sys module’s argv attribute as a list. For instance the following output results from running python demo.py one two three at the command line:
+
+通用实用程序脚本通常需要处理命令行参数。 这些参数作为列表存储在sys模块的argv属性中。 例如，以下输出来自在命令行运行python demo.py one two three：
+
+>>> import sys
+>>> print sys.argv
+['demo.py', 'one', 'two', 'three']
+
+The getopt module processes sys.argv using the conventions of the Unix getopt() function. More powerful and flexible command line processing is provided by the argparse module.
+
+getopt模块使用Unix getopt()函数的约定来处理sys.argv。 argparse模块提供了更强大，更灵活的命令行处理。
