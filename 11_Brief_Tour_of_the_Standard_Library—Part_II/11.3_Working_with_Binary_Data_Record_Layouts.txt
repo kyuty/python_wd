@@ -1,0 +1,20 @@
+The struct module provides pack() and unpack() functions for working with variable length binary record formats. The following example shows how to loop through header information in a ZIP file without using the zipfile module. Pack codes "H" and "I" represent two and four byte unsigned numbers respectively. The "<" indicates that they are standard size and in little-endian byte order:
+
+struct模块提供了pack()和unpack()函数，用于处理可变长度的二进制记录格式。 以下示例说明如何在不使用zipfile模块的情况下循环ZIP文件中的标头信息。 包代码“H”和“I”分别代表两个和四个字节的无符号数。 “<”表示它们是标准大小和little-endian字节顺序：
+
+import struct
+
+data = open('myfile.zip', 'rb').read()
+start = 0
+for i in range(3):                      # show the first 3 file headers
+    start += 14
+    fields = struct.unpack('<IIIHH', data[start:start+16])
+    crc32, comp_size, uncomp_size, filenamesize, extra_size = fields
+
+    start += 16
+    filename = data[start:start+filenamesize]
+    start += filenamesize
+    extra = data[start:start+extra_size]
+    print filename, hex(crc32), comp_size, uncomp_size
+
+    start += extra_size + comp_size     # skip to the next header

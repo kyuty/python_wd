@@ -1,0 +1,52 @@
+The decimal module offers a Decimal datatype for decimal floating point arithmetic. Compared to the built-in float implementation of binary floating point, the class is especially helpful for
+
+decimal模块为十进制浮点运算提供Decimal数据类型。与二进制浮点的内置float实现相比，该类特别有用
+
+financial applications and other uses which require exact decimal representation,
+control over precision,
+control over rounding to meet legal or regulatory requirements,
+tracking of significant decimal places, or
+applications where the user expects the results to match calculations done by hand.
+For example, calculating a 5% tax on a 70 cent phone charge gives different results in decimal floating point and binary floating point. The difference becomes significant if the results are rounded to the nearest cent:
+
+财务申请和其他需要精确十进制表示的用途，
+控制精度，
+控制四舍五入以满足法律或监管要求，
+跟踪有效小数位，或
+用户希望结果与手工完成的计算相匹配的应用程序。
+例如，计算70美分手机费用的5％税，会产生十进制浮点和二进制浮点数的不同结果。如果结果四舍五入到最接近的分数，则差异变得很大：
+
+>>> from decimal import *
+>>> x = Decimal('0.70') * Decimal('1.05')
+>>> x
+Decimal('0.7350')
+>>> x.quantize(Decimal('0.01'))  # round to nearest cent
+Decimal('0.74')
+>>> round(.70 * 1.05, 2)         # same calculation with floats
+0.73
+
+The Decimal result keeps a trailing zero, automatically inferring four place significance from multiplicands with two place significance. Decimal reproduces mathematics as done by hand and avoids issues that can arise when binary floating point cannot exactly represent decimal quantities.
+
+十进制结果保持尾随零，自动从具有两个位置重要性的被乘数中推断出四位有效。 Decimal可以手动复制数学，避免了二进制浮点不能精确表示十进制数时可能出现的问题。
+
+Exact representation enables the Decimal class to perform modulo calculations and equality tests that are unsuitable for binary floating point:
+
+精确表示使Decimal类能够执行不适合二进制浮点的模数计算和相等性测试：
+
+>>> Decimal('1.00') % Decimal('.10')
+Decimal('0.00')
+>>> 1.00 % 0.10
+0.09999999999999995
+
+>>> sum([Decimal('0.1')]*10) == Decimal('1.0')
+True
+>>> sum([0.1]*10) == 1.0
+False
+
+The decimal module provides arithmetic with as much precision as needed:
+
+十进制模块根据需要提供尽可能高的算术运算：
+
+>>> getcontext().prec = 36
+>>> Decimal(1) / Decimal(7)
+Decimal('0.142857142857142857142857142857142857')

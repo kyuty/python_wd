@@ -1,0 +1,26 @@
+The logging module offers a full featured and flexible logging system. At its simplest, log messages are sent to a file or to sys.stderr:
+
+记录模块提供功能齐全且灵活的记录系统。最简单的是，日志消息被发送到文件或sys.stderr：
+
+import logging
+logging.debug('Debugging information')
+logging.info('Informational message')
+logging.warning('Warning:config file %s not found', 'server.conf')
+logging.error('Error occurred')
+logging.critical('Critical error -- shutting down')
+
+This produces the following output:
+
+这会产生以下输出：
+
+WARNING:root:Warning:config file server.conf not found
+ERROR:root:Error occurred
+CRITICAL:root:Critical error -- shutting down
+
+By default, informational and debugging messages are suppressed and the output is sent to standard error. Other output options include routing messages through email, datagrams, sockets, or to an HTTP Server. New filters can select different routing based on message priority: DEBUG, INFO, WARNING, ERROR, and CRITICAL.
+
+默认情况下，信息和调试消息被抑制，输出发送到标准错误。其他输出选项包括通过电子邮件，数据报，套接字或HTTP服务器路由消息。新过滤器可以根据消息优先级选择不同的路由：DEBUG，INFO，WARNING，ERROR和CRITICAL。
+
+The logging system can be configured directly from Python or can be loaded from a user editable configuration file for customized logging without altering the application.
+
+日志记录系统可以直接从Python配置，也可以从用户可编辑的配置文件加载，以便自定义日志记录而无需更改应用程序。

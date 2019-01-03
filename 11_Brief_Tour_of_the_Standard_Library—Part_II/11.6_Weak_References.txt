@@ -1,0 +1,32 @@
+Python does automatic memory management (reference counting for most objects and garbage collection to eliminate cycles). The memory is freed shortly after the last reference to it has been eliminated.
+
+Python执行自动内存管理（大多数对象的引用计数和垃圾收集以消除循环）。在消除了对最后一次引用后不久释放的内存。
+
+This approach works fine for most applications but occasionally there is a need to track objects only as long as they are being used by something else. Unfortunately, just tracking them creates a reference that makes them permanent. The weakref module provides tools for tracking objects without creating a reference. When the object is no longer needed, it is automatically removed from a weakref table and a callback is triggered for weakref objects. Typical applications include caching objects that are expensive to create:
+
+这种方法适用于大多数应用程序，但偶尔需要跟踪对象，只要它们被其他东西使用。不幸的是，只是跟踪它们会创建一个使它们永久化的引用。 weakref模块提供了跟踪对象的工具，而无需创建引用。当不再需要该对象时，它将自动从weakref表中删除，并为weakref对象触发回调。典型应用程序包括缓存创建成本高昂的对象：
+
+# weakref.WeakValueDictionary函数
+# gc.collect函数
+>>> import weakref, gc
+>>> class A:
+...     def __init__(self, value):
+...         self.value = value
+...     def __repr__(self):
+...         return str(self.value)
+...
+>>> a = A(10)                   # create a reference
+>>> d = weakref.WeakValueDictionary()
+>>> d['primary'] = a            # does not create a reference
+>>> d['primary']                # fetch the object if it is still alive
+10
+>>> del a                       # remove the one reference
+>>> gc.collect()                # run garbage collection right away
+0
+>>> d['primary']                # entry was automatically removed
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    d['primary']                # entry was automatically removed
+  File "C:/python26/lib/weakref.py", line 46, in __getitem__
+    o = self.data[key]()
+KeyError: 'primary'

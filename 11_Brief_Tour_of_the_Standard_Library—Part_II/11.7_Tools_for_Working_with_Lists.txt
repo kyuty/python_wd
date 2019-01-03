@@ -1,0 +1,81 @@
+Many data structure needs can be met with the built-in list type. However, sometimes there is a need for alternative implementations with different performance trade-offs.
+
+内置列表类型可以满足许多数据结构需求。但是，有时需要具有不同性能权衡的替代实现。
+
+The array module provides an array() object that is like a list that stores only homogeneous data and stores it more compactly. The following example shows an array of numbers stored as two byte unsigned binary numbers (typecode "H") rather than the usual 16 bytes per entry for regular lists of Python int objects:
+
+数组模块提供了一个array()对象，它类似于一个列表，它只存储同类数据并更紧凑地存储它。以下示例显示了存储为两个字节无符号二进制数(typecode "H")的数字数组，而不是通常的Python int对象列表的每个条目通常16个字节：
+
+>>> from array import array
+>>> a = array('H', [4000, 10, 700, 22222])
+>>> sum(a)
+26932
+>>> a[1:3]
+array('H', [10, 700])
+
+The collections module provides a deque() object that is like a list with faster appends and pops from the left side but slower lookups in the middle. These objects are well suited for implementing queues and breadth first tree searches:
+
+collections模块提供了一个deque()对象，它类似于一个列表，具有更快的附加和左侧弹出，但在中间查找较慢。这些对象非常适合实现队列和广度优先树搜索：
+
+>>> from collections import deque
+>>> d = deque(["task1", "task2", "task3"])
+>>> d.append("task4")
+>>> print "Handling", d.popleft()
+Handling task1
+
+unsearched = deque([starting_node])
+def breadth_first_search(unsearched):
+    node = unsearched.popleft()
+    for m in gen_moves(node):
+        if is_goal(m):
+            return m
+        unsearched.append(m)
+
+In addition to alternative list implementations, the library also offers other tools such as the bisect module with functions for manipulating sorted lists:
+
+除了替代列表实现之外，该库还提供了其他工具，例如bisect模块，其中包含用于操作排序列表的函数：
+
+>>> import bisect
+>>> scores = [(100, 'perl'), (200, 'tcl'), (400, 'lua'), (500, 'python')]
+>>> bisect.insort(scores, (300, 'ruby'))
+>>> scores
+[(100, 'perl'), (200, 'tcl'), (300, 'ruby'), (400, 'lua'), (500, 'python')]
+
+The heapq module provides functions for implementing heaps based on regular lists. The lowest valued entry is always kept at position zero. This is useful for applications which repeatedly access the smallest element but do not want to run a full list sort:
+
+heapq模块提供了基于常规列表实现堆的功能。最低值的条目始终保持在零位置。这对于重复访问最小元素但不想运行完整列表排序的应用程序非常有用：
+
+>>> from heapq import heapify, heappop, heappush
+>>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+>>> heapify(data)                      # rearrange the list into heap order
+>>> heappush(data, -5)                 # add a new entry
+>>> [heappop(data) for i in range(3)]  # fetch the three smallest entries
+[-5, 0, 1]
+>>>
+>>>
+>>>
+>>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+>>> heapify(data)
+>>> data
+[0, 1, 2, 6, 3, 5, 4, 7, 8, 9]
+>>> heappush(data, -5)
+>>> data
+[-5, 0, 2, 6, 1, 5, 4, 7, 8, 9, 3]
+>>> heappop(data)
+-5
+>>> data
+[0, 1, 2, 6, 3, 5, 4, 7, 8, 9]
+>>> [heappop(data) for i in range(3)]
+[0, 1, 2]
+>>> data
+[3, 6, 4, 7, 9, 5, 8]
+>>>
+>>>
+>>>
+>>> data = [1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+>>> data
+[1, 3, 5, 7, 9, 2, 4, 6, 8, 0]
+>>> [heappop(data) for i in range(3)]
+[1, 0, 3]
+>>> data
+[5, 7, 2, 6, 9, 8, 4]
