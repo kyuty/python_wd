@@ -1,0 +1,130 @@
+Floating-point numbers are represented in computer hardware as base 2 (binary) fractions. For example, the decimal fraction
+
+浮点数在计算机硬件中表示为基数2（二进制）分数。 例如，小数部分
+
+0.125
+
+has value 1/10 + 2/100 + 5/1000, and in the same way the binary fraction
+
+值为1/10 + 2/100 + 5/1000，二进制分数相同
+
+0.001
+
+has value 0/2 + 0/4 + 1/8. These two fractions have identical values, the only real difference being that the first is written in base 10 fractional notation, and the second in base 2.
+
+值为0/2 + 0/4 + 1/8。 这两个分数具有相同的值，唯一真正的区别在于第一个用基数10分数表示法写入，第二个用基数2表示。
+
+Unfortunately, most decimal fractions cannot be represented exactly as binary fractions. A consequence is that, in general, the decimal floating-point numbers you enter are only approximated by the binary floating-point numbers actually stored in the machine.
+
+不幸的是，大多数小数部分不能完全表示为二进制分数。 结果是，通常，您输入的十进制浮点数仅由实际存储在机器中的二进制浮点数近似。
+
+The problem is easier to understand at first in base 10. Consider the fraction 1/3. You can approximate that as a base 10 fraction:
+
+这个问题最初在基数10中更容易理解。考虑1/3的分数。 您可以将其近似为基数10分数：
+
+0.3
+
+or, better,
+
+0.33
+
+or, better,
+
+0.333
+
+and so on. No matter how many digits you’re willing to write down, the result will never be exactly 1/3, but will be an increasingly better approximation of 1/3.
+
+等等。 无论你愿意记下多少位数，结果都不会完全是1/3，但将会越来越好地逼近1/3。
+
+In the same way, no matter how many base 2 digits you’re willing to use, the decimal value 0.1 cannot be represented exactly as a base 2 fraction. In base 2, 1/10 is the infinitely repeating fraction
+
+同样，无论您愿意使用多少个2位数，十进制值0.1都不能完全表示为基数2分数。 在2为基数时，1/10是无限重复的部分
+
+0.0001100110011001100110011001100110011001100110011...
+
+Stop at any finite number of bits, and you get an approximation.
+
+停在任何有限的位数，你得到一个近似值。
+
+On a typical machine running Python, there are 53 bits of precision available for a Python float, so the value stored internally when you enter the decimal number 0.1 is the binary fraction
+
+在运行Python的典型机器上，Python浮点数有53位可用精度，因此输入十进制数0.1时内部存储的值是二进制分数
+
+0.00011001100110011001100110011001100110011001100110011010
+
+which is close to, but not exactly equal to, 1/10.
+
+接近但不完全等于1/10。
+
+It’s easy to forget that the stored value is an approximation to the original decimal fraction, because of the way that floats are displayed at the interpreter prompt. Python only prints a decimal approximation to the true decimal value of the binary approximation stored by the machine. If Python were to print the true decimal value of the binary approximation stored for 0.1, it would have to display
+
+很容易忘记存储的值是原始小数的近似值，因为浮点数在解释器提示符处显示的方式。 Python仅打印十进制近似值到机器存储的二进制近似值的真实十进制值。如果Python要打印存储为0.1的二进制近似的真实十进制值，则必须显示
+
+>>> 0.1
+0.1000000000000000055511151231257827021181583404541015625
+
+That is more digits than most people find useful, so Python keeps the number of digits manageable by displaying a rounded value instead
+
+这比大多数人认为有用的数字更多，因此Python通过显示舍入值来保持可管理的位数
+
+>>> 0.1
+0.1
+
+It’s important to realize that this is, in a real sense, an illusion: the value in the machine is not exactly 1/10, you’re simply rounding the display of the true machine value. This fact becomes apparent as soon as you try to do arithmetic with these values
+
+重要的是要意识到这实际上是一种错觉：机器中的价值并不完全是1/10，你只是将真实机器值的显示四舍五入。一旦您尝试使用这些值进行算术运算，这一事实就会变得明显
+
+>>> 0.1 + 0.2
+0.30000000000000004
+
+Note that this is in the very nature of binary floating-point: this is not a bug in Python, and it is not a bug in your code either. You’ll see the same kind of thing in all languages that support your hardware’s floating-point arithmetic (although some languages may not display the difference by default, or in all output modes).
+
+请注意，这是二进制浮点的本质：这不是Python中的错误，也不是代码中的错误。您将在支持硬件浮点运算的所有语言中看到相同的类型（尽管某些语言默认情况下可能无法显示差异，或者在所有输出模式下都不会显示差异）。
+
+Other surprises follow from this one. For example, if you try to round the value 2.675 to two decimal places, you get this
+
+其他惊喜随之而来。例如，如果您尝试将值2.675舍入到两位小数，则可以得到此值
+
+>>> round(2.675, 2)
+2.67
+
+The documentation for the built-in round() function says that it rounds to the nearest value, rounding ties away from zero. Since the decimal fraction 2.675 is exactly halfway between 2.67 and 2.68, you might expect the result here to be (a binary approximation to) 2.68. It’s not, because when the decimal string 2.675 is converted to a binary floating-point number, it’s again replaced with a binary approximation, whose exact value is
+
+内置的round()函数的文档说它会舍入到最接近的值，从而将关系从零开始舍入。由于小数部分2.675恰好位于2.67和2.68之间，因此您可能期望此结果为（二进制近似值）2.68。它不是，因为当十进制字符串2.675被转换为二进制浮点数时，它再次被二进制近似替换，其精确值是
+
+2.67499999999999982236431605997495353221893310546875
+
+Since this approximation is slightly closer to 2.67 than to 2.68, it’s rounded down.
+
+由于这个近似值略微接近2.67而不是2.68，因此它向下舍入。
+
+If you’re in a situation where you care which way your decimal halfway-cases are rounded, you should consider using the decimal module. Incidentally, the decimal module also provides a nice way to “see” the exact value that’s stored in any particular Python float
+
+如果您处理的情况是您关注十进制中间情况的舍入方式，则应考虑使用十进制模块。顺便提一下，十进制模块还提供了一种很好的方法来“查看”存储在任何特定Python float中的确切值
+
+>>> from decimal import Decimal
+>>> Decimal(2.675)
+Decimal('2.67499999999999982236431605997495353221893310546875')
+
+Another consequence is that since 0.1 is not exactly 1/10, summing ten values of 0.1 may not yield exactly 1.0, either:
+
+另一个结果是，由于0.1不完全是1/10，因此将十个0.1的值相加可能不会恰好产生1.0：
+
+>>> sum = 0.0
+>>> for i in range(10):
+...     sum += 0.1
+...
+>>> sum
+0.9999999999999999
+
+Binary floating-point arithmetic holds many surprises like this. The problem with “0.1” is explained in precise detail below, in the “Representation Error” section. See The Perils of Floating Point for a more complete account of other common surprises.
+
+二进制浮点运算有很多这样的惊喜。下面在“表示错误”部分中详细解释了“0.1”的问题。有关其他常见惊喜的更完整说明，请参阅浮点危险。
+
+As that says near the end, “there are no easy answers.” Still, don’t be unduly wary of floating-point! The errors in Python float operations are inherited from the floating-point hardware, and on most machines are on the order of no more than 1 part in 2**53 per operation. That’s more than adequate for most tasks, but you do need to keep in mind that it’s not decimal arithmetic, and that every float operation can suffer a new rounding error.
+
+正如接近结尾所说，“没有简单的答案。”不过，不要过分警惕浮点数！ Python浮点运算中的错误是从浮点硬件继承而来的，并且在大多数机器上每个操作的错误数量不超过1 ** 2 ** 53。这对于大多数任务来说已经足够了，但是你需要记住它不是十进制算术，并且每次浮点操作都会遇到新的舍入错误。
+
+While pathological cases do exist, for most casual use of floating-point arithmetic you’ll see the result you expect in the end if you simply round the display of your final results to the number of decimal digits you expect. For fine control over how a float is displayed see the str.format() method’s format specifiers in Format String Syntax.
+
+虽然存在病态情况，但对于大多数临时使用浮点运算，如果您只是将最终结果的显示四舍五入到您期望的十进制数字，您将看到最终期望的结果。要精确控制浮点的显示方式，请参阅格式字符串语法中的str.format()方法的格式说明符。

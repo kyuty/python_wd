@@ -1,0 +1,82 @@
+15.1.1. Error Handling
+
+15.1.1. 错误处理
+
+When an error occurs, the interpreter prints an error message and a stack trace. In interactive mode, it then returns to the primary prompt; when input came from a file, it exits with a nonzero exit status after printing the stack trace. (Exceptions handled by an except clause in a try statement are not errors in this context.) Some errors are unconditionally fatal and cause an exit with a nonzero exit; this applies to internal inconsistencies and some cases of running out of memory. All error messages are written to the standard error stream; normal output from executed commands is written to standard output.
+
+发生错误时，解释器会输出错误消息和堆栈跟踪。在交互模式下，它然后返回主要提示;当输入来自文件时，它在打印堆栈跟踪后以非零退出状态退出。 （在try语句中由except子句处理的异常在此上下文中不是错误。）某些错误无条件地致命并导致退出非零退出;这适用于内部不一致和一些内存不足的情况。所有错误消息都写入标准错误流;执行命令的正常输出写入标准输出。
+
+Typing the interrupt character (usually Control-C or Delete) to the primary or secondary prompt cancels the input and returns to the primary prompt. [1] Typing an interrupt while a command is executing raises the KeyboardInterrupt exception, which may be handled by a try statement.
+
+将中断字符（通常为Control-C或Delete）键入主要或辅助提示会取消输入并返回主要提示。 [1]在命令执行时键入中断会引发KeyboardInterrupt异常，该异常可能由try语句处理。
+
+15.1.2. Executable Python Scripts
+
+15.1.2. 可执行的Python脚本
+
+On BSD’ish Unix systems, Python scripts can be made directly executable, like shell scripts, by putting the line
+
+在BSD的Unix系统上，Python脚本可以直接执行，就像shell脚本一样，通过放置行
+
+#!/usr/bin/env python
+(assuming that the interpreter is on the user’s PATH) at the beginning of the script and giving the file an executable mode. The #! must be the first two characters of the file. On some platforms, this first line must end with a Unix-style line ending ('\n'), not a Windows ('\r\n') line ending. Note that the hash, or pound, character, '#', is used to start a comment in Python.
+
+（假设解释器在用户的PATH上）在脚本的开头并给文件一个可执行模式。 ＃！必须是文件的前两个字符。在某些平台上，第一行必须以Unix样式行结尾（'\ n'）结束，而不是以Windows（'\ n \ n \ n'）行结尾。请注意，散列或磅字符'＃'用于在Python中启动注释。
+
+The script can be given an executable mode, or permission, using the chmod command.
+
+可以使用chmod命令为脚本指定可执行模式或权限。
+
+$ chmod +x myscript.py
+On Windows systems, there is no notion of an “executable mode”. The Python installer automatically associates .py files with python.exe so that a double-click on a Python file will run it as a script. The extension can also be .pyw, in that case, the console window that normally appears is suppressed.
+
+在Windows系统上，没有“可执行模式”的概念。 Python安装程序会自动将.py文件与python.exe相关联，这样双击Python文件就会将其作为脚本运行。扩展名也可以是.pyw，在这种情况下，通常显示的控制台窗口被抑制。
+
+15.1.3. The Interactive Startup File
+
+15.1.3. 交互式启动文件
+
+When you use Python interactively, it is frequently handy to have some standard commands executed every time the interpreter is started. You can do this by setting an environment variable named PYTHONSTARTUP to the name of a file containing your start-up commands. This is similar to the .profile feature of the Unix shells.
+
+当您以交互方式使用Python时，每次启动解释器时都会执行一些标准命令，这通常很方便。您可以通过将名为PYTHONSTARTUP的环境变量设置为包含启动命令的文件名来完成此操作。这类似于Unix shell的.profile功能。
+
+This file is only read in interactive sessions, not when Python reads commands from a script, and not when /dev/tty is given as the explicit source of commands (which otherwise behaves like an interactive session). It is executed in the same namespace where interactive commands are executed, so that objects that it defines or imports can be used without qualification in the interactive session. You can also change the prompts sys.ps1 and sys.ps2 in this file.
+
+此文件仅在交互式会话中读取，而不是在Python从脚本读取命令时读取，而不是在将/dev/tty作为显式命令源（其他行为类似于交互式会话）的情况下读取。它在执行交互式命令的同一命名空间中执行，因此可以在交互式会话中无限制地使用它定义或导入的对象。您还可以更改此文件中的提示sys.ps1和sys.ps2。
+
+If you want to read an additional start-up file from the current directory, you can program this in the global start-up file using code like if os.path.isfile('.pythonrc.py'): exec(open('.pythonrc.py').read()). If you want to use the startup file in a script, you must do this explicitly in the script:
+
+如果要从当前目录中读取其他启动文件，可以使用如os.path.isfile('.pythonrc.py')之类的代码在全局启动文件中对此进行编程：exec(open('.pythonrc.py').read())。如果要在脚本中使用启动文件，则必须在脚本中明确执行此操作：
+
+import os
+filename = os.environ.get('PYTHONSTARTUP')
+if filename and os.path.isfile(filename):
+    with open(filename) as fobj:
+        startup_file = fobj.read()
+    exec(startup_file)
+
+15.1.4. The Customization Modules
+
+15.1.4. 定制模块
+
+Python provides two hooks to let you customize it: sitecustomize and usercustomize. To see how it works, you need first to find the location of your user site-packages directory. Start Python and run this code:
+
+Python提供了两个钩子来让你自定义它：sitecustomize和usercustomize。要查看其工作原理，首先需要找到用户site-packages目录的位置。启动Python并运行以下代码：
+
+>>> import site
+>>> site.getusersitepackages()
+'/home/user/.local/lib/python2.7/site-packages'
+
+Now you can create a file named usercustomize.py in that directory and put anything you want in it. It will affect every invocation of Python, unless it is started with the -s option to disable the automatic import.
+
+现在，您可以在该目录中创建名为usercustomize.py的文件，并将所需内容放入其中。它会影响Python的每次调用，除非它以-s选项启动以禁用自动导入。
+
+sitecustomize works in the same way, but is typically created by an administrator of the computer in the global site-packages directory, and is imported before usercustomize. See the documentation of the site module for more details.
+
+sitecustomize以相同的方式工作，但通常由全局site-packages目录中的计算机管理员创建，并在usercustomize之前导入。有关更多详细信息，请参阅站点模块的文档。
+
+Footnotes
+
+[1]	A problem with the GNU Readline package may prevent this.
+
+[1] GNU Readline包的问题可能会阻止这种情况。

@@ -1,0 +1,12 @@
+Some versions of the Python interpreter support editing of the current input line and history substitution, similar to facilities found in the Korn shell and the GNU Bash shell. This is implemented using the GNU Readline library, which supports Emacs-style and vi-style editing. This library has its own documentation which I won’t duplicate here; however, the basics are easily explained. The interactive editing and history described here are optionally available in the Unix and Cygwin versions of the interpreter.
+
+某些版本的Python解释器支持编辑当前输入行和历史记录替换，类似于Korn shell和GNU Bash shell中的设施。 这是使用GNU Readline库实现的，该库支持Emacs样式和vi样式编辑。 这个库有自己的文档，我不会在这里重复; 但是，基础知识很容易解释。 此处描述的交互式编辑和历史记录可选择在解释器的Unix和Cygwin版本中提供。
+
+This chapter does not document the editing facilities of Mark Hammond’s PythonWin package or the Tk-based environment, IDLE, distributed with Python. The command line history recall which operates within DOS boxes on NT and some other DOS and Windows flavors is yet another beast.
+
+本章不记录Mark Hammond的PythonWin包的编辑工具或基于Tk的环境，IDLE，随Python一起发布。 在NT上的DOS框和其他一些DOS和Windows版本中运行的命令行历史记录调用是另一个野兽。
+
+
+If supported, input line editing is active whenever the interpreter prints a primary or secondary prompt. The current line can be edited using the conventional Emacs control characters. The most important of these are: C-A (Control-A) moves the cursor to the beginning of the line, C-E to the end, C-B moves it one position to the left, C-F to the right. Backspace erases the character to the left of the cursor, C-D the character to its right. C-K kills (erases) the rest of the line to the right of the cursor, C-Y yanks back the last killed string. C-underscore undoes the last change you made; it can be repeated for cumulative effect.
+
+如果支持，只要解释器打印主要或辅助提示，输入行编辑就会处于活动状态。 可以使用传统的Emacs控制字符编辑当前行。 其中最重要的是：C-A（Control-A）将光标移动到线的开头，C-E移动到最后，C-B将其移动到左边一个位置，C-F移动到右边。 退格键删除光标左侧的字符，C-D右侧的字符。 C-K杀死（擦除）光标右侧的其余部分，C-Y拉回最后一个被杀死的字符串。 C-underscore撤消了你最后的改变; 它可以重复累积效果。

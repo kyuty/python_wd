@@ -1,0 +1,7 @@
+This facility is an enormous step forward compared to earlier versions of the interpreter; however, some wishes are left: It would be nice if the proper indentation were suggested on continuation lines (the parser knows if an indent token is required next). The completion mechanism might use the interpreter’s symbol table. A command to check (or even suggest) matching parentheses, quotes, etc., would also be useful.
+
+与早期版本的翻译相比，这个设施向前迈出了一大步; 但是，还有一些愿望：如果在连续行上建议了适当的缩进（解析器知道下一个是否需要缩进标记），那将会很好。 完成机制可能使用解释器的符号表。 检查（或甚至建议）匹配括号，引号等的命令也是有用的。
+
+One alternative enhanced interactive interpreter that has been around for quite some time is IPython, which features tab completion, object exploration and advanced history management. It can also be thoroughly customized and embedded into other applications. Another similar enhanced interactive environment is bpython.
+
+IPython是一种可供选择的增强型交互式解释器，它具有很长一段时间，它具有标签完成，对象探索和高级历史记录管理功能。 它还可以彻底定制并嵌入到其他应用程序中。 另一个类似的增强交互式环境是bpython。

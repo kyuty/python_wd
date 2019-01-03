@@ -1,0 +1,3 @@
+History substitution works as follows. All non-empty input lines issued are saved in a history buffer, and when a new prompt is given you are positioned on a new line at the bottom of this buffer. C-P moves one line up (back) in the history buffer, C-N moves one down. Any line in the history buffer can be edited; an asterisk appears in front of the prompt to mark a line as modified. Pressing the Return key passes the current line to the interpreter. C-R starts an incremental reverse search; C-S starts a forward search.
+
+历史替换的工作原理如下。 发出的所有非空输入行都保存在历史缓冲区中，当给出新提示时，您将位于此缓冲区底部的新行上。 C-P在历史缓冲区中向上（向后）移动一行，C-N向下移动一行。 可以编辑历史缓冲区中的任何行; 提示前面会出现一个星号，表示已修改的行。 按Return键将当前行传递给解释器。 C-R开始增量反向搜索; C-S开始向前搜索。

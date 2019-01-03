@@ -1,0 +1,81 @@
+The key bindings and some other parameters of the Readline library can be customized by placing commands in an initialization file called ~/.inputrc. Key bindings have the form
+
+可以通过将命令放在名为~/.inputrc的初始化文件中来定制Readline库的键绑定和一些其他参数。键绑定具有表单
+
+key-name: function-name
+
+or
+
+"string": function-name
+
+and options can be set with
+
+选项可以设置
+
+set option-name value
+
+For example:
+
+# I prefer vi-style editing:
+set editing-mode vi
+
+# Edit using a single line:
+set horizontal-scroll-mode On
+
+# Rebind some keys:
+Meta-h: backward-kill-word
+"\C-u": universal-argument
+"\C-x\C-r": re-read-init-file
+
+Note that the default binding for Tab in Python is to insert a Tab character instead of Readline’s default filename completion function. If you insist, you can override this by putting
+
+请注意，Python中Tab的默认绑定是插入Tab字符而不是Readline的默认文件名完成功能。如果你坚持，你可以通过推杆来覆盖它
+
+Tab: complete
+
+in your ~/.inputrc. (Of course, this makes it harder to type indented continuation lines if you’re accustomed to using Tab for that purpose.)
+
+在你的~/.inputrc。 （当然，如果您习惯于将Tab用于此目的，这会使输入缩进的延续行变得更加困难。）
+
+Automatic completion of variable and module names is optionally available. To enable it in the interpreter’s interactive mode, add the following to your startup file: (Python will execute the contents of a file identified by the PYTHONSTARTUP environment variable when you start an interactive interpreter. To customize Python even for non-interactive mode, see The Customization Modules.)
+
+可选择自动完成变量和模块名称。要在解释器的交互模式中启用它，请将以下内容添加到启动文件中：(当您启动交互式解释器时，Python将执行由PYTHONSTARTUP环境变量标识的文件的内容。 要为非交互模式自定义Python，请参阅自定义模块。)
+
+import rlcompleter, readline
+readline.parse_and_bind('tab: complete')
+
+This binds the Tab key to the completion function, so hitting the Tab key twice suggests completions; it looks at Python statement names, the current local variables, and the available module names. For dotted expressions such as string.a, it will evaluate the expression up to the final '.' and then suggest completions from the attributes of the resulting object. Note that this may execute application-defined code if an object with a __getattr__() method is part of the expression.
+
+这会将Tab键绑定到完成功能，因此按Tab键两次表示完成;它查看Python语句名称，当前局部变量和可用模块名称。对于像string.a这样的虚线表达式，它会将表达式计算到最终的'。'。然后根据结果对象的属性建议完成。请注意，如果具有__getattr __ ()方法的对象是表达式的一部分，则可以执行应用程序定义的代码。
+
+A more capable startup file might look like this example. Note that this deletes the names it creates once they are no longer needed; this is done since the startup file is executed in the same namespace as the interactive commands, and removing the names avoids creating side effects in the interactive environment. You may find it convenient to keep some of the imported modules, such as os, which turn out to be needed in most sessions with the interpreter.
+
+功能更强大的启动文件可能看起来像这个例子。请注意，这将删除不再需要的名称;这样做是因为启动文件在与交互式命令相同的命名空间中执行，并且删除名称可避免在交互式环境中创建副作用。您可能会发现保留一些导入的模块很方便，例如os，这在大多数会话中都需要与解释器一起使用。
+
+# Add auto-completion and a stored history file of commands to your Python
+# interactive interpreter. Requires Python 2.0+, readline. Autocomplete is
+# bound to the Esc key by default (you can change it - see readline docs).
+#
+# Store the file in ~/.pystartup, and set an environment variable to point
+# to it:  "export PYTHONSTARTUP=~/.pystartup" in bash.
+
+# 将自动完成和存储的命令历史文件添加到Python交互式解释器。 需要Python 2.0+，readline。 默认情况下，自动填充功能绑定到Esc键（您可以更改它 - 请参阅readline文档）。
+# 
+# 将文件存储在~/.pystartup中，并设置一个环境变量指向它：“在bash中导出PYTHONSTARTUP =~/.pystartup”。
+
+import atexit
+import os
+import readline
+import rlcompleter
+
+historyPath = os.path.expanduser("~/.pyhistory")
+
+def save_history(historyPath=historyPath):
+    import readline
+    readline.write_history_file(historyPath)
+
+if os.path.exists(historyPath):
+    readline.read_history_file(historyPath)
+
+atexit.register(save_history)
+del os, atexit, readline, rlcompleter, save_history, historyPath
